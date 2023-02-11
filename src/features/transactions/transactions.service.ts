@@ -15,6 +15,14 @@ export class TransactionsService {
 	) {
 	}
 
+	async getUserList(userId: string) {
+		return (await this._userModel.find({_id: {$ne: userId}}))
+			.map(({ _id, email, name }) => ({
+				id: _id,
+				email,
+				name
+			}))
+	}
 
 	async getTransactionsList(userId: string) {
 		return (await this._transactionModel
@@ -41,7 +49,6 @@ export class TransactionsService {
 				}
 			})
 	}
-
 
 	async createTransaction(userId: string, dto: CreateTransactionDto) {
 		const {amount} = dto;

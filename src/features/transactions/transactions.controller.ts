@@ -17,6 +17,11 @@ export class TransactionsController {
 		return this._transactionsService.getTransactionsList(req.user.userId);
 	}
 
+	@Get('userList')
+	userList(@Req() req) {
+		return this._transactionsService.getUserList(req.user.userId);
+	}
+
 	@Post('create')
 	createTransaction(@Req() req, @Body() dto: CreateTransactionDto) {
 		return this._transactionsService.createTransaction(req.user.userId, dto);
