@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose'
-import {createHmac, randomBytes} from 'crypto';
+import { createHmac, randomBytes } from 'crypto';
 
 export type UserDocument = User & Document
 
@@ -25,14 +25,15 @@ export class User {
 		default: 500
 	}) balance: number;
 
+
 }
 
 export const UserScheme = SchemaFactory.createForClass(User)
 
-UserScheme.methods.encryptPassword = function(password) {
+UserScheme.methods.encryptPassword = function (password) {
 	return createHmac('sha1', this.salt).update(password).digest('hex');
 };
-UserScheme.methods.checkPassword = function(password) {
+UserScheme.methods.checkPassword = function (password) {
 	return this.encryptPassword(password) === this.hashedPassword;
 };
 

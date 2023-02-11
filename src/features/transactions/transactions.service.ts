@@ -16,6 +16,33 @@ export class TransactionsService {
 	}
 
 
+	async getTransactionsList(userId: string) {
+		return (await this._transactionModel
+			.find({$or: [{senderUser: {$eq: userId}}, {recipientUser: {$eq: userId}}]} )
+			.populate('senderUser recipientUser')
+			.sort({created: -1}))
+			.map(x => {
+				return {
+					id: x._id,
+					created: x.created,
+					amount: x.amount,
+					senderUser: {
+						//@ts-ignore
+						id: x.senderUser._id,
+						name: x.senderUser.name,
+						email: x.senderUser.email,
+					},
+					recipientUser: {
+						//@ts-ignore
+						id: x.recipientUser._id,
+						name: x.recipientUser.name,
+						email: x.recipientUser.email,
+					},
+				}
+			})
+	}
+
+
 	async createTransaction(userId: string, dto: CreateTransactionDto) {
 		const {amount} = dto;
 		const senderUser = await this._userModel.findById(userId)
@@ -33,7 +60,6 @@ export class TransactionsService {
 			throw new HttpException('Amount is greater then balance', HttpStatus.BAD_REQUEST)
 		}
 		senderUser.balance -= amount;
-		console.log(senderUser, recipientUser)
 		const newTransaction = new this._transactionModel({
 			senderUser: senderUser,
 			recipientUser: recipientUser,

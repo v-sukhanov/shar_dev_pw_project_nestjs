@@ -13,8 +13,8 @@ export class TransactionsController {
 	}
 
 	@Get('list')
-	getList() {
-		return 'list';
+	getList(@Req() req) {
+		return this._transactionsService.getTransactionsList(req.user.userId);
 	}
 
 	@Post('create')
