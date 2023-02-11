@@ -1,4 +1,3 @@
-
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose'
 import {createHmac, randomBytes} from 'crypto';
@@ -7,12 +6,24 @@ export type UserDocument = User & Document
 
 @Schema()
 export class User {
-	@Prop() email: string;
-	@Prop() name: string;
-	@Prop() salt: string;
-	@Prop() hashedPassword: string
-	@Prop() created: Date;
-	@Prop() balance: number;
+	@Prop({
+		required: true
+	}) email: string;
+	@Prop({
+		required: true
+	}) name: string;
+	@Prop({
+		required: true
+	}) salt: string;
+	@Prop({
+		required: true
+	}) hashedPassword: string
+	@Prop({
+		default: Date.now()
+	}) created: Date;
+	@Prop({
+		default: 500
+	}) balance: number;
 
 }
 
