@@ -5,6 +5,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from '../../shared/schemas/user.schema';
 import { SigninDto } from './dto/signin.dto';
 import * as process from 'process';
+import { ISigninResponseDto } from './dto/signin-response.dto';
 const jwt = require('jsonwebtoken')
 
 @Injectable()
@@ -26,10 +27,9 @@ export class AuthService {
 			password: dto.password
 		});
 		await newUser.save()
-		return null;
 	}
 
-	async signIn(dto: SigninDto) {
+	async signIn(dto: SigninDto): Promise<ISigninResponseDto> {
 		const user = await this._userModel.findOne({email: dto.email})
 		//@ts-ignore
 		if (!user || !user.checkPassword(dto.password)) {

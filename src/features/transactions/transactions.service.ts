@@ -4,6 +4,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from '../../shared/schemas/user.schema';
 import { Model } from 'mongoose';
 import { Transaction, TransactionDocument } from '../../shared/schemas/transaction.schema';
+import { ITransactionDto } from './dto/transaction.dto';
+import { ITransactionUserDto } from './dto/transaction-user.dto';
 
 
 @Injectable()
@@ -15,7 +17,7 @@ export class TransactionsService {
 	) {
 	}
 
-	async getUserList(userId: string) {
+	async getUserList(userId: string): Promise<ITransactionUserDto[]> {
 		return (await this._userModel.find({_id: {$ne: userId}}))
 			.map(({ _id, email, name }) => ({
 				id: _id,
@@ -24,7 +26,7 @@ export class TransactionsService {
 			}))
 	}
 
-	async getTransactionsList(userId: string) {
+	async getTransactionsList(userId: string): Promise<ITransactionDto[]> {
 		return (await this._transactionModel
 			.find({$or: [{senderUser: {$eq: userId}}, {recipientUser: {$eq: userId}}]} )
 			.populate('senderUser recipientUser')
