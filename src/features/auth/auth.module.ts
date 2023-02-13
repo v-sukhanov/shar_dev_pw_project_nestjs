@@ -13,9 +13,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 		AuthController
 	],
 	imports: [
-		JwtModule.register({
-			secret: 'SUPER_SECRET_WORDS',
-			signOptions: { expiresIn: '2h' },
+		JwtModule.registerAsync({
+			imports: [ConfigModule],
+			useFactory: async (configService: ConfigService) => ({
+				secret: configService.get('TOKEN_KEY'),
+				signOptions: { expiresIn: '2h' },
+			}),
+			inject: [ConfigService],
 		}),
 		MongooseModule.forFeature([
 			{

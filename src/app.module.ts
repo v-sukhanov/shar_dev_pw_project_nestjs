@@ -10,7 +10,9 @@ import { TransactionsModule } from './features/transactions/transactions.module'
 
 @Module({
 	imports: [
-		ConfigModule.forRoot(),
+		ConfigModule.forRoot({
+			isGlobal: true
+		}),
 		MongooseModule.forRoot(process.env.MONGO_CONNECTION_STRING),
 		AuthModule,
 		UserModule,

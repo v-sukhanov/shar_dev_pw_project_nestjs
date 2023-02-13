@@ -61,12 +61,13 @@ export class TransactionsService {
 			throw new HttpException('The recipient user not found', HttpStatus.BAD_REQUEST)
 		}
 		if (senderUser.id === recipientUser.id) {
-			throw new HttpException('User can\'t send pw to yourself', HttpStatus.BAD_REQUEST)
+			throw new HttpException('User can\'t s end pw to yourself', HttpStatus.BAD_REQUEST)
 		}
 		if (amount > senderUser.balance) {
 			throw new HttpException('Amount is greater then balance', HttpStatus.BAD_REQUEST)
 		}
 		senderUser.balance -= amount;
+		recipientUser.balance += amount;
 		const newTransaction = new this._transactionModel({
 			senderUser: senderUser,
 			recipientUser: recipientUser,
