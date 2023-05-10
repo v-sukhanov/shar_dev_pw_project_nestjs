@@ -8,7 +8,7 @@ export class UserController {
 
   @UseGuards(JwtAuthGuard)
   @Get('info')
-  getUserInfo(@Request() req) {
-    return this._userService.getUserInfo(req.user.userId);
+  async getUserInfo(@Request() req) {
+    return await this._userService.getUserInfo(req.user.userId);
   }
 }

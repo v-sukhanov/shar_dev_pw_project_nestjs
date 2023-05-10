@@ -9,17 +9,17 @@ export class TransactionsController {
   constructor(private readonly _transactionsService: TransactionsService) {}
 
   @Get('list')
-  getList(@Req() req) {
-    return this._transactionsService.getTransactionsList(req.user.userId);
+  async getList(@Req() req) {
+    return await this._transactionsService.getTransactionsList(req.user.userId);
   }
 
   @Get('userList')
-  userList(@Req() req) {
-    return this._transactionsService.getUserList(req.user.userId);
+  async userList(@Req() req) {
+    return await this._transactionsService.getUserList(req.user.userId);
   }
 
   @Post('create')
-  createTransaction(@Req() req, @Body() dto: CreateTransactionDto) {
-    return this._transactionsService.createTransaction(req.user.userId, dto);
+  async createTransaction(@Req() req, @Body() dto: CreateTransactionDto) {
+    return await this._transactionsService.createTransaction(req.user.userId, dto);
   }
 }
