@@ -7,17 +7,16 @@ import { UserModule } from './features/user/user.module';
 import { TransactionsModule } from './features/transactions/transactions.module';
 
 @Module({
-	imports: [
-		ConfigModule.forRoot({
-			isGlobal: true
-		}),
-		MongooseModule.forRoot(process.env.MONGO_CONNECTION_STRING),
-		AuthModule,
-		UserModule,
-		TransactionsModule
-	],
-	controllers: [],
-	providers: [],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    MongooseModule.forRoot(process.env.MONGO_CONNECTION_STRING),
+    AuthModule,
+    UserModule,
+    TransactionsModule,
+  ],
+  controllers: [],
+  providers: [],
 })
-export class AppModule {
-}
+export class AppModule {}
